@@ -1,0 +1,39 @@
+---
+- hosts: all
+  vars_files:
+    - vars/main.yml
+    - vars/credentials.yml
+  vars:
+    ansible_user: root
+
+  pre_tasks:
+    - name: Update cache for Debian-based distros
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == 'Debian'
+      changed_when: false
+
+  roles:
+    - role: ansible-podman-setup-host
+
+- hosts: all
+  vars_files:
+    - vars/main.yml
+    - vars/credentials.yml
+  vars:
+    ansible_user: root
+
+  pre_tasks:
+    - name: Create the web podman network
+      containers.podman.podman_network:
+        name: web
+        state: present
+      changed_when: false
+      become: true
+      become_user: "{{ podman_unprivileged_user_name }}"
+
+  roles:
+    - role: ansible-podman-containers
+      become: true
+      become_user: "{{ podman_unprivileged_user_name }}"

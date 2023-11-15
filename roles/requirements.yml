@@ -1,0 +1,15 @@
+roles:
+- src: git@codeberg.org:fourstepper/ansible-role-fail2ban.git
+  scm: git
+  version: main
+
+- src: git@codeberg.org:fourstepper/ansible-podman-setup-host
+  scm: git
+  version: main
+
+- src: git@codeberg.org:fourstepper/ansible-podman-containers
+  scm: git
+  version: main
+
+collections:
+- containers.podman

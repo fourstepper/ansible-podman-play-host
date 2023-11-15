@@ -1,0 +1,10 @@
+---
+podman_unprivileged_user_name: containers
+
+podman_containers:
+  - name: nginx
+    image: docker.io/nginxinc/nginx-unprivileged
+    publish:
+      - "8080:8080/tcp"
+    volumes:
+      - /home/containers/testing-permissions:/config
